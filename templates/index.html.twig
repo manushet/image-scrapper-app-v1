@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Image Scrapper App | Главная{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="mb-4">Image scrapper</h1>
+    
+    {{ form_start(urlForm, {
+        'action': path('results'),
+        'method': 'POST'
+    })}}
+        <div class="row">
+            <div class="col pe-0">
+                <div class="form-group">
+                    {{ form_widget(urlForm.url, {'attr': {
+                            'class': 'form-control me-0',
+                            'placeholder': 'URL страницы'
+                    }})}}
+                    {{ form_errors(urlForm.url) }}
+                </div>
+            </div>
+            <div class="col ps-0">
+                <div class="form-group">
+                    {{ form_widget(urlForm.submit, {'attr': {'class': 'btn btn-primary ms-0'}}) }}
+                </div>
+            </div>
+        </div>
+    {{ form_end(urlForm) }}
+</div>
+{% endblock %}

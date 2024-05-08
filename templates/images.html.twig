@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Image Scrapper App | Результат анализа{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="mb-4">Изображения на странице</h1>
+    
+    <div class="row">
+        {% for image in images %}
+            <div class="col-md-3 mb-4">
+                <div class="card">
+                    <a href="{{image.url}}"><img src="{{ image.url }}" class="card-img-top" alt="Image"></a>
+                    <div class="card-body">
+                        <p class="card-text">Размер: {{ image.sizeMB }} МБ</p>
+                    </div>
+                </div>
+            </div>
+            {% if loop.index is divisible by(4) %}
+                </div><div class="row">
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="mt-4">
+        <h3>Результаты анализа:</h3>
+        <p>На странице обнаружено {{ images|length }} изображений на {{ totalSizeMB }} МБ.</p>
+    </div>
+</div>
+{% endblock %}

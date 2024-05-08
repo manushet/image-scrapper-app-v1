@@ -1,0 +1,21 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\MessageHandler;
+
+use App\Message\ImageMessage;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+
+#[AsMessageHandler]
+class ImageMessageHandler
+{
+    public function __construct(
+    ) {
+    }
+
+    public function __invoke(ImageMessage $message)
+    {
+
+    }
+}

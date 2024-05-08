@@ -4,32 +4,29 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class Image
 {
-    private string $url;
+    private float $sizeMB;
 
-    private int $size;
+    public function __construct(private string $url)
+    {
+    }
 
     public function getUrl(): ?string
     {
         return $this->url;
     }
 
-    public function setUrl(string $url): self
+    public function getSizeMB(): ?float
     {
-        $this->url = $url;
-
-        return $this;
+        return $this->sizeMB;
     }
 
-    public function getSize(): ?int
+    public function setSizeMB(float $sizeMB): self
     {
-        return $this->size;
-    }
-
-    public function setSize(int $size): self
-    {
-        $this->size = $size;
+        $this->sizeMB = $sizeMB;
 
         return $this;
     }
