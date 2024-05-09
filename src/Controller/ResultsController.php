@@ -35,13 +35,13 @@ class ResultsController extends AbstractController
 
             $imageUrls = $this->imageScrapper->parse($url);
 
-            $imagesSize = $this->httpClientService->getContentSizes($imageUrls);
+            $imagesResults = $this->httpClientService->getContentSizes($imageUrls);
             
             return $this->render('images.html.twig', [
                 'url'=> $url,                
                 'images' => $imageUrls,
-                'imagesQtt' => count($imageUrls),
-                'imagesSize' => $imagesSize,
+                'imagesQtt' => $imagesResults['qtt'],
+                'imagesSize' => $imagesResults['size'],
             ]);
         }
 

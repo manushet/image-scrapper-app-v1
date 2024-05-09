@@ -14,22 +14,42 @@ class ImageScrapperService
         return ltrim(rtrim($url, '/\\'), '/\\');
     }
 
-    public function parse(string $url): array
-    {        
+    private function getHtmlContent(string $url): string
+    {
         try {
-            $html = file_get_contents($url);
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, false);  
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+            return curl_exec($ch);
         } catch (\Exception $e) {
             throw new UnreachableResourceContentException();
-        }
+        }        
+    }
+
+    public function parse(string $url): array
+    {        
+        $html = $this->getHtmlContent($url);
 
         $imagePaths = (new Crawler($html))->filterXpath('//img')
         ->extract(array('src'));
 
-        $imageUrls = array_map(
-            fn ($imagePath) => "{$this->sanitizeUrl($url)}/{$this->sanitizeUrl($imagePath)}", 
-            $imagePaths
-        );
+        $imageUrls = [];
 
-        return !empty($imageUrls) ? $imageUrls : [];
+        foreach ($imagePaths as $imagePath) {           
+            if (!str_contains($imagePath, "http")) {   
+                $imagePath = "{$this->sanitizeUrl($url)}/{$this->sanitizeUrl($imagePath)}";
+            }
+
+            if (!empty($imagePath) && ($imagePath !== $url)) {
+                $imageExtensions = array('webp', 'svg', 'jpeg', 'jpg', 'gif', 'png');
+                
+                if (in_array(strtolower(pathinfo($imagePath, PATHINFO_EXTENSION)), $imageExtensions)) {
+                    $imageUrls[] = $imagePath;
+                }
+            }
+        }
+
+        return $imageUrls;
     }
 }
