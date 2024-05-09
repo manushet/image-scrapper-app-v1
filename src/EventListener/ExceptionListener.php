@@ -7,6 +7,7 @@ namespace App\EventListener;
 use Symfony\Component\HttpFoundation\Response;
 use App\Exception\UnreachableResourceContentException;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 
 class ExceptionListener
 {
@@ -20,7 +21,13 @@ class ExceptionListener
             $message = $exception->getMessage();
 
             $response->setStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
-        } else {
+        } 
+        elseif ($exception instanceof ClientExceptionInterface) {
+            $message = $exception->getMessage();
+
+            $response->setStatusCode(Response::HTTP_PROCESSING);
+        }
+        else {
             $message = "An internal error occured during request processing.";
 
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);

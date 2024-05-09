@@ -22,10 +22,21 @@
             </div>
             <div class="col ps-0">
                 <div class="form-group">
-                    {{ form_widget(urlForm.submit, {'attr': {'class': 'btn btn-primary ms-0'}}) }}
+                    {{ form_widget(urlForm.submit, {'attr': {
+                        'class': 'btn btn-primary ms-0 submitBtn'
+                    }}) }}
                 </div>
             </div>
         </div>
     {{ form_end(urlForm) }}
 </div>
+ <script>   
+    document.addEventListener("DOMContentLoaded", function() {              
+        var submitBtn = document.getElementsByClassName('submitBtn')[0];
+
+        submitBtn.addEventListener('click', function() {
+            submitBtn.innerHTML = '<span class="spinner-grow spinner-grow-sm"></span> Loading...';
+        });
+    });
+</script>
 {% endblock %}

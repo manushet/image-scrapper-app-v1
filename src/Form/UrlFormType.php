@@ -21,8 +21,7 @@ class UrlFormType extends AbstractType
                 'trim' => true
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Go',
-                'attr' => ['class' => 'btn btn-primary mt-3']
+                'label' => 'Go'
             ]);
     }
 

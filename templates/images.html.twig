@@ -4,16 +4,13 @@
 
 {% block body %}
 <div class="container mt-5">
-    <h1 class="mb-4">Изображения на странице</h1>
+    <h1 class="mb-4">Изображения на странице {{ url }}</h1>
     
     <div class="row">
-        {% for image in images %}
+        {% for images in images %}
             <div class="col-md-3 mb-4">
                 <div class="card">
-                    <a href="{{image.url}}"><img src="{{ image.url }}" class="card-img-top" alt="Image"></a>
-                    <div class="card-body">
-                        <p class="card-text">Размер: {{ image.sizeMB }} МБ</p>
-                    </div>
+                    <img src="{{ images }}" class="card-img-top" alt="Image">
                 </div>
             </div>
             {% if loop.index is divisible by(4) %}
@@ -24,7 +21,7 @@
 
     <div class="mt-4">
         <h3>Результаты анализа:</h3>
-        <p>На странице обнаружено {{ images|length }} изображений на {{ totalSizeMB }} МБ.</p>
+        <p>На странице обнаружено {{ imagesQtt }} изображений на {{ imagesSize }} МБ.</p>
     </div>
 </div>
 {% endblock %}
